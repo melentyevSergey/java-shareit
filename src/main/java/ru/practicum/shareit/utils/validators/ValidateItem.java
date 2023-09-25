@@ -7,7 +7,8 @@ import ru.practicum.shareit.utils.ValidationException;
 @Slf4j
 public class ValidateItem {
 
-    private ValidateItem() {}
+    private ValidateItem() {
+    }
 
     public static void validate(ItemDto itemDto) {
         log.info("Запущен процесс валидации вещи.");

@@ -7,7 +7,8 @@ import ru.practicum.shareit.utils.ValidationException;
 @Slf4j
 public class ValidateUser {
 
-    private ValidateUser() {}
+    private ValidateUser() {
+    }
 
     public static void validate(UserDto user) {
         log.info("Запущен процесс валидации пользователя");
