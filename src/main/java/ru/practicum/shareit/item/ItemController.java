@@ -17,7 +17,6 @@ public class ItemController {
 
     private static final String USERID = "X-Sharer-User-Id";
 
-    @ResponseBody
     @GetMapping("/{itemId}")
     public ItemDto getItem(@PathVariable Integer itemId, @RequestHeader(USERID) Integer userId) {
         log.info("Получен GET запрос для получения вещи по идентификатору {}", itemId);
@@ -26,7 +25,6 @@ public class ItemController {
         return itemService.getItem(itemId, userId);
     }
 
-    @ResponseBody
     @GetMapping()
     public List<ItemDto> getItems(@RequestHeader(USERID) Integer userId) {
         log.debug("Получен GET запрос на получение списка всех вещей пользователя.");
@@ -34,7 +32,6 @@ public class ItemController {
         return itemService.getItems(userId);
     }
 
-    @ResponseBody
     @GetMapping("/search")
     public List<ItemDto> findItem(@RequestParam(name = "text") String query,
                                   @RequestHeader(USERID) Integer userId) {
@@ -43,7 +40,6 @@ public class ItemController {
         return itemService.findItem(query, userId);
     }
 
-    @ResponseBody
     @PostMapping()
     public ItemDto createItem(@RequestBody @Valid ItemDto itemDto, @RequestHeader(USERID) Integer userId) {
 
@@ -53,7 +49,6 @@ public class ItemController {
         return itemService.createItem(itemDto, userId);
     }
 
-    @ResponseBody
     @PatchMapping("/{itemId}")
     public ItemDto updateItem(@PathVariable Integer itemId,
                               @RequestBody ItemDto itemDto,

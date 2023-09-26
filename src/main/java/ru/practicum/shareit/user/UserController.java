@@ -15,7 +15,6 @@ import java.util.List;
 public class UserController {
     private final UserService service;
 
-    @ResponseBody
     @GetMapping("/{userId}")
     public UserDto getUser(@PathVariable Integer userId) {
         log.info("Получен GET запрос для получения пользователя по идентификатору {}", userId);
@@ -23,7 +22,6 @@ public class UserController {
         return service.getUser(userId);
     }
 
-    @ResponseBody
     @GetMapping()
     public List<UserDto> getUsers() {
         log.debug("Получен GET запрос на получение списка всех пользователей.");
@@ -31,7 +29,6 @@ public class UserController {
         return service.getUsers();
     }
 
-    @ResponseBody
     @PostMapping()
     public UserDto createUser(@RequestBody @Valid UserDto userDto) {
         log.info("Получен POST запрос для создания нового пользователя.");
@@ -40,7 +37,6 @@ public class UserController {
     }
 
     @PatchMapping("/{userId}")
-    @ResponseBody
     public UserDto updateUser(@PathVariable Integer userId, @RequestBody UserDto userdto) {
         log.info("Получен PATCH запрос для обновления существующего пользователя.");
 
