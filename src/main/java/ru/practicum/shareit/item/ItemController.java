@@ -22,22 +22,21 @@ public class ItemController {
         log.info("Получен GET запрос для получения вещи по идентификатору {}", itemId);
         log.debug("Идентификатор пользователя, запрашивающий вещь {}", userId);
 
-        return itemService.getItem(itemId, userId);
+        return itemService.getItem(userId, itemId);
     }
 
     @GetMapping()
     public List<ItemDto> getItems(@RequestHeader(USERID) Integer userId) {
         log.debug("Получен GET запрос на получение списка всех вещей пользователя.");
 
-        return itemService.getItems(userId);
+        return itemService.getItemsByUserId(userId);
     }
 
     @GetMapping("/search")
-    public List<ItemDto> findItem(@RequestParam(name = "text") String query,
-                                  @RequestHeader(USERID) Integer userId) {
+    public List<ItemDto> findItem(@RequestParam(name = "text") String query) {
         log.info("Получен GET запрос для поиск вещи потенциальным арендатором по строке {}", query);
 
-        return itemService.findItem(query, userId);
+        return itemService.findItem(query);
     }
 
     @PostMapping()
@@ -46,7 +45,7 @@ public class ItemController {
         log.info("Получен POST запрос для добавления новой вещи.");
         log.debug("Идентификатор пользователя, добавляющий вещь {}", userId);
 
-        return itemService.createItem(itemDto, userId);
+        return itemService.createItem(userId, itemDto);
     }
 
     @PatchMapping("/{itemId}")
@@ -58,7 +57,7 @@ public class ItemController {
         log.debug("Идентификатор вещи {}", itemId);
         log.debug("Идентификатор пользователя, которому принадлежит вещь {}", userId);
 
-        return itemService.updateItem(itemId, itemDto, userId);
+        return itemService.updateItem(userId, itemId, itemDto);
     }
 
     @DeleteMapping("/{itemId}")
