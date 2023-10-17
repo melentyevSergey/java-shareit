@@ -1,7 +1,6 @@
 package ru.practicum.shareit.user;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.user.dto.UserDto;
@@ -11,10 +10,9 @@ import ru.practicum.shareit.utils.validators.ValidateUser;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Slf4j
 @Service
-@Transactional(readOnly = true)
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
@@ -50,9 +48,11 @@ public class UserServiceImpl implements UserService {
         if (user.getName() == null) {
             user.setName(userTemp.getName());
         }
+
         if (user.getEmail() == null) {
             user.setEmail(userTemp.getEmail());
         }
+
         return UserMapper.toUserDto(userRepository.save(user));
     }
 

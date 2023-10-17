@@ -3,9 +3,12 @@ package ru.practicum.shareit.item;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+import ru.practicum.shareit.comment.dto.CommentDto;
 import ru.practicum.shareit.item.dto.ItemDto;
+import ru.practicum.shareit.utils.ValidationException;
 
 import javax.validation.Valid;
+import java.util.Collection;
 import java.util.List;
 
 @Slf4j
@@ -18,7 +21,7 @@ public class ItemController {
     private static final String USERID = "X-Sharer-User-Id";
 
     @GetMapping("/{itemId}")
-    public ItemDto getItem(@PathVariable Integer itemId, @RequestHeader(USERID) Integer userId) {
+    public ItemWithBooking getItem(@PathVariable Integer itemId, @RequestHeader(USERID) Integer userId) {
         log.info("Получен GET запрос для получения вещи по идентификатору {}", itemId);
         log.debug("Идентификатор пользователя, запрашивающий вещь {}", userId);
 
@@ -26,7 +29,7 @@ public class ItemController {
     }
 
     @GetMapping()
-    public List<ItemDto> getItems(@RequestHeader(USERID) Integer userId) {
+    public Collection<ItemWithBooking> getItems(@RequestHeader(USERID) Integer userId) {
         log.debug("Получен GET запрос на получение списка всех вещей пользователя.");
 
         return itemService.getItemsByUserId(userId);
@@ -40,7 +43,8 @@ public class ItemController {
     }
 
     @PostMapping()
-    public ItemDto createItem(@RequestBody @Valid ItemDto itemDto, @RequestHeader(USERID) Integer userId) {
+    public ItemDto createItem(@RequestBody @Valid ItemDto itemDto,
+                              @RequestHeader(USERID) Integer userId) throws ValidationException {
 
         log.info("Получен POST запрос для добавления новой вещи.");
         log.debug("Идентификатор пользователя, добавляющий вещь {}", userId);
@@ -66,5 +70,15 @@ public class ItemController {
         log.info("Получен DELETE запрос на удаление вещи с идентификатором {}", itemId);
 
         itemService.removeItem(userId, itemId);
+    }
+
+    @PostMapping("/{itemId}/comment")
+    public CommentDto addComment(@RequestHeader(USERID) Integer userId,
+                                 @RequestBody @Valid CommentDto commentDto,
+                                 @PathVariable Integer itemId) {
+
+        log.info("Попытка добавить комментарий {}", commentDto);
+
+        return itemService.addNewCommentForItem(userId, commentDto, itemId);
     }
 }

@@ -3,24 +3,25 @@ package ru.practicum.shareit.booking;
 import lombok.Data;
 import ru.practicum.shareit.item.Item;
 import ru.practicum.shareit.user.User;
-import ru.practicum.shareit.utils.BookingStatus;
+import ru.practicum.shareit.utils.Status;
 
 import javax.persistence.*;
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
 @Table(name = "bookings")
 public class Booking {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     @Column
-    private Instant start;
+    private LocalDateTime start;
 
-    @Column
-    private Instant finish;
+    @Column(name = "finish")
+    private LocalDateTime end;
 
     @ManyToOne
     @JoinColumn(name = "item_id")
@@ -28,8 +29,9 @@ public class Booking {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User owner;
+    private User booker;
 
     @Column
-    private BookingStatus status;
+    @Enumerated(EnumType.STRING)
+    private Status status;
 }
