@@ -1,7 +1,6 @@
 package ru.practicum.shareit.booking;
 
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import ru.practicum.shareit.item.Item;
 import ru.practicum.shareit.utils.Status;
@@ -10,7 +9,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-@Repository
 public interface BookingRepository extends JpaRepository<Booking, Integer> {
 
     List<Booking> findByItemIn(Iterable<Item> items);

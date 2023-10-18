@@ -11,14 +11,14 @@ import javax.validation.Valid;
 import java.util.Collection;
 import java.util.List;
 
+import static ru.practicum.shareit.utils.AppRequestParams.USERID;
+
 @Slf4j
 @RestController
 @RequestMapping("/items")
 @RequiredArgsConstructor
 public class ItemController {
     private final ItemService itemService;
-
-    private static final String USERID = "X-Sharer-User-Id";
 
     @GetMapping("/{itemId}")
     public ItemWithBooking getItem(@PathVariable Integer itemId, @RequestHeader(USERID) Integer userId) {

@@ -131,6 +131,7 @@ public class ItemServiceImpl implements ItemService {
     }
 
     @Override
+    @Transactional
     public CommentDto addNewCommentForItem(Integer userId, CommentDto commentDto, Integer itemId) {
         List<Booking> bookings = bookingService.findBookingByUserIdAndFinishAfterNow(userId);
 

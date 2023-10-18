@@ -8,6 +8,8 @@ import ru.practicum.shareit.booking.dto.BookingDto;
 import javax.validation.Valid;
 import java.util.List;
 
+import static ru.practicum.shareit.utils.AppRequestParams.USERID;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -15,8 +17,6 @@ import java.util.List;
 public class BookingController {
 
     private final BookingService bookingService;
-
-    private static final String USERID = "X-Sharer-User-Id";
 
     @PostMapping()
     public BookingDto createBooking(@RequestHeader(USERID) Integer userId,
