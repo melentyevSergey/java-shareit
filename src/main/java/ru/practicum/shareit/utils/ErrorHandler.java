@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class ErrorHandler {
 
+    @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(ValidationException.class)
-    public String validationException(ValidationException exception) throws JsonProcessingException {
-        log.debug("Получен статус 400 BAD_REQUEST {}", exception.getMessage(), exception);
-        return new ObjectMapper().writeValueAsString(exception.getMessage());
+    public ErrorResponse handlerValidationException(final ValidationException e) {
+        log.info("Ошибка 400 BAD_REQUEST: {}", e.getMessage());
+        return new ErrorResponse(e.getMessage());
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)

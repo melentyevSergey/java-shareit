@@ -10,18 +10,17 @@ import javax.validation.constraints.Size;
 @Data
 @AllArgsConstructor
 public class ItemDto {
+
     private Integer id;
 
-    @NotBlank(message = "Название не может быть пустым")
-    @Size(min = 1, max = 55, message = "максимальная длина длина — 45 символов")
+    @NotBlank(message = "Название не может быть пустым.")
+    @Size(min = 1, max = 32, message = "Максимальная длина — 32 символа.")
     private String name;
 
-    @NotBlank(message = "Описание не может быть пустым")
-    @Size(min = 1, max = 88, message = "максимальная длина описания — 90 символов")
+    @NotBlank(message = "Описание не может быть пустым.")
+    @Size(min = 1, max = 64, message = "Максимальная длина описания — 64 символа.")
     private String description;
 
     @NotNull
     private Boolean available;
-
-    private Integer requestId;
 }

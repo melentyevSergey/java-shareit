@@ -1,10 +1,14 @@
 package ru.practicum.shareit.item;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import lombok.experimental.UtilityClass;
+import ru.practicum.shareit.booking.dto.BookingDto;
+import ru.practicum.shareit.comment.dto.CommentDto;
 import ru.practicum.shareit.item.dto.ItemDto;
+import ru.practicum.shareit.user.User;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+import java.util.List;
+
+@UtilityClass
 public class ItemMapper {
 
     public static ItemDto toItemDto(Item item) {
@@ -12,19 +16,38 @@ public class ItemMapper {
                 item.getId(),
                 item.getName(),
                 item.getDescription(),
-                item.getAvailable(),
-                item.getRequestId() != null ? item.getRequestId() : null
+                item.getAvailable()
         );
     }
 
-    public static Item toItem(Integer ownerId, ItemDto itemDto) {
-        return new Item(
-                itemDto.getId(),
-                itemDto.getName(),
-                itemDto.getDescription(),
-                itemDto.getAvailable(),
-                ownerId,
-                itemDto.getRequestId() != null ? itemDto.getRequestId() : null
-        );
+    public static Item toItem(User owner, ItemDto itemDto) {
+        Item item = new Item();
+
+        item.setId(itemDto.getId());
+        item.setName(itemDto.getName());
+        item.setDescription(itemDto.getDescription());
+        item.setOwner(owner);
+        item.setAvailable(itemDto.getAvailable());
+
+        return item;
+    }
+
+    public static ItemWithBooking toItemWithBooking(Item item,
+                                                    BookingDto lastBooking,
+                                                    BookingDto nextBooking,
+                                                    List<CommentDto> comments) {
+        ItemWithBooking itemWithBooking = new ItemWithBooking();
+
+        itemWithBooking.setId(item.getId());
+        itemWithBooking.setName(item.getName());
+        itemWithBooking.setDescription(item.getDescription());
+        itemWithBooking.setUser(item.getOwner());
+        itemWithBooking.setAvailable(item.getAvailable());
+        itemWithBooking.setLastBooking(lastBooking);
+        itemWithBooking.setNextBooking(nextBooking);
+        itemWithBooking.setComments(comments);
+
+        return itemWithBooking;
     }
 }
+
