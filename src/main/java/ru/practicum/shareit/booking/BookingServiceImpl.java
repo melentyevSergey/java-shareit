@@ -95,7 +95,6 @@ public class BookingServiceImpl implements BookingService {
     @Override
     public List<BookingDto> getBookingListByOwnerId(Integer userId, String state, Integer from, Integer size) {
         utility.checkUser(userId);
-        
         Sort sortByDate = Sort.by(Sort.Direction.ASC, "start");
         int pageIndex = from / size;
         Pageable page = PageRequest.of(pageIndex, size, sortByDate);
