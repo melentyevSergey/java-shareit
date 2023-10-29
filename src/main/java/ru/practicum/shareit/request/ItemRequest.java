@@ -16,17 +16,13 @@ public class ItemRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
     @Column
     private String description;
-
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User requestor;
-
     @Column
     private LocalDateTime created;
-
     @Transient
     private List<Item> items;
 }

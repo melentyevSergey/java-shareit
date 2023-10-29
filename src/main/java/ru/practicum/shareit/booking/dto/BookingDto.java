@@ -14,25 +14,17 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class BookingDto {
     private Integer id;
-
     @NotNull
     private Integer itemId;
-
     private Integer bookerId;
-
     @NotNull
     @Future
     private LocalDateTime start;
-
     @NotNull
     private LocalDateTime end;
-
     private Status status;
-
     private Booker booker;
-
     private ItemBooking item;
-
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
@@ -40,7 +32,6 @@ public class BookingDto {
         private Integer id;
         private String name;
     }
-
     @Data
     @AllArgsConstructor
     @NoArgsConstructor

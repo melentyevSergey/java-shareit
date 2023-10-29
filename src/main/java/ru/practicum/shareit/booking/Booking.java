@@ -14,13 +14,10 @@ public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
     @Column
     private LocalDateTime start;
-
     @Column(name = "finish")
     private LocalDateTime end;
-    
     @ManyToOne
     @JoinColumn(name = "item_id")
     private Item item;
