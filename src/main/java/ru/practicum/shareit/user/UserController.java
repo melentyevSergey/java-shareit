@@ -3,50 +3,50 @@ package ru.practicum.shareit.user;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
+import ru.practicum.shareit.exception.AlreadyExistException;
 import ru.practicum.shareit.user.dto.UserDto;
 
 import javax.validation.Valid;
 import java.util.List;
 
-@Slf4j
 @RestController
 @RequestMapping(path = "/users")
 @RequiredArgsConstructor
+@Slf4j
 public class UserController {
-    private final UserService service;
+    private final UserService userService;
 
-    @GetMapping("/{userId}")
-    public UserDto getUser(@PathVariable Integer userId) {
-        log.info("Получен GET запрос для получения пользователя по идентификатору {}", userId);
-
-        return service.getUser(userId);
+    @GetMapping
+    public List<UserDto> getAll() {
+        log.info("Количество пользователей: {}", userService.getAll());
+        return userService.getAll();
     }
 
-    @GetMapping()
-    public List<UserDto> getUsers() {
-        log.debug("Получен GET запрос на получение списка всех пользователей.");
-
-        return service.getUsers();
-    }
-
-    @PostMapping()
-    public UserDto createUser(@RequestBody @Valid UserDto userDto) {
-        log.info("Получен POST запрос для создания нового пользователя.");
-
-        return service.createUser(userDto);
+    @PostMapping
+    public UserDto save(@RequestBody @Valid UserDto userDto) {
+        log.info("Попытка добавить пользователя: {}", userDto);
+        try {
+            return userService.save(userDto);
+        } catch (AlreadyExistException e) {
+            throw new AlreadyExistException("Пользователь с таким email уже существует");
+        }
     }
 
     @PatchMapping("/{userId}")
-    public UserDto updateUser(@PathVariable Integer userId, @RequestBody UserDto userdto) {
-        log.info("Получен PATCH запрос для обновления существующего пользователя.");
+    public UserDto update(@RequestBody UserDto userdto, @PathVariable Integer userId) {
+        log.info("Попытка обновить пользователя: {}", userdto);
+        return userService.update(userId, userdto);
+    }
 
-        return service.updateUser(userId, userdto);
+    @GetMapping("/{userId}")
+    public UserDto getById(@PathVariable Integer userId) {
+        log.info("Попытка получить пользователя с id: {}", userId);
+        return userService.getById(userId);
     }
 
     @DeleteMapping("/{userId}")
-    public void deleteUser(@PathVariable Integer userId) {
-        log.info("Получен DELETE запрос для удаления пользователя {}", userId);
-
-        service.deleteUser(userId);
+    public void removeById(@PathVariable Integer userId) {
+        log.info("Попытка удаления пользователя с идентификатором: {}", userId);
+        userService.removeById(userId);
     }
 }

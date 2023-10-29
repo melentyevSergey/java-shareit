@@ -2,69 +2,57 @@ package ru.practicum.shareit.user;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.shareit.user.dto.UserDto;
-import ru.practicum.shareit.utils.NotFoundException;
-import ru.practicum.shareit.utils.validators.ValidateUser;
+
+import org.springframework.transaction.annotation.Transactional;
+import ru.practicum.shareit.utility.Utility;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 @Transactional(readOnly = true)
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-
     private final UserRepository userRepository;
+    private final Utility utility;
 
     @Override
-    public UserDto getUser(Integer id) {
-        return UserMapper.toUserDto(getUserIfExist(id));
-    }
-
-    @Override
-    public List<UserDto> getUsers() {
+    public List<UserDto> getAll() {
         return userRepository.findAll().stream()
-                .map(UserMapper::toUserDto)
+                .map(UserMapper::toDto)
                 .collect(Collectors.toList());
     }
 
     @Override
     @Transactional
-    public UserDto createUser(UserDto userDto) {
-        ValidateUser.validate(userDto);
-
-        return UserMapper.toUserDto(userRepository.save((UserMapper.toUser(userDto))));
+    public UserDto save(UserDto userDto) {
+        return UserMapper.toDto(userRepository.save(UserMapper.toEntity(userDto)));
     }
 
     @Override
     @Transactional
-    public UserDto updateUser(Integer id, UserDto userDto) {
-        User user = UserMapper.toUser(userDto);
-        user.setId(id);
-
-        User userTemp = getUserIfExist(id);
-
+    public UserDto update(Integer userId, UserDto userDto) {
+        User user = UserMapper.toEntity(userDto);
+        user.setId(userId);
+        User userTemp = utility.checkUser(userId);
         if (user.getName() == null) {
             user.setName(userTemp.getName());
         }
-
         if (user.getEmail() == null) {
             user.setEmail(userTemp.getEmail());
         }
+        return UserMapper.toDto(userRepository.save(user));
+    }
 
-        return UserMapper.toUserDto(userRepository.save(user));
+    @Override
+    public UserDto getById(Integer id) {
+        return UserMapper.toDto(utility.checkUser(id));
     }
 
     @Override
     @Transactional
-    public void deleteUser(Integer id) {
-        userRepository.deleteById(getUserIfExist(id).getId());
-    }
-
-    @Override
-    public User getUserIfExist(Integer userId) {
-        return userRepository.findById(userId).orElseThrow(() ->
-                new NotFoundException(String.format("Пользователь с идентификатором =%d не найден", userId)));
+    public void removeById(Integer id) {
+        userRepository.deleteById(utility.checkUser(id).getId());
     }
 }

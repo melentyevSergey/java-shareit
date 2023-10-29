@@ -1,13 +1,12 @@
 package ru.practicum.shareit.user;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import lombok.experimental.UtilityClass;
 import ru.practicum.shareit.user.dto.UserDto;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@UtilityClass
 public class UserMapper {
 
-    public static UserDto toUserDto(User user) {
+    public static UserDto toDto(User user) {
         return new UserDto(
                 user.getId(),
                 user.getName(),
@@ -15,13 +14,11 @@ public class UserMapper {
         );
     }
 
-    public static User toUser(UserDto userDto) {
+    public static User toEntity(UserDto userDto) {
         User user = new User();
-
         user.setId(user.getId());
         user.setName(userDto.getName());
         user.setEmail(userDto.getEmail());
-
         return user;
     }
 }
