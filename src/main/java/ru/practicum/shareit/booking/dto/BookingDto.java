@@ -25,6 +25,7 @@ public class BookingDto {
     private Status status;
     private Booker booker;
     private ItemBooking item;
+
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
@@ -32,6 +33,7 @@ public class BookingDto {
         private Integer id;
         private String name;
     }
+
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
