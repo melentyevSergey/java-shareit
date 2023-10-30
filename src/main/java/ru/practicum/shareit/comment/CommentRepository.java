@@ -8,7 +8,6 @@ import ru.practicum.shareit.item.model.Item;
 
 import java.util.List;
 
-@Repository
 public interface CommentRepository extends JpaRepository<Comment, Integer> {
 
    List<Comment> findByItemIn(Iterable<Item> items, Sort created);

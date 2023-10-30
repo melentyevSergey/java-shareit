@@ -2,6 +2,7 @@ package ru.practicum.shareit.booking;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.SneakyThrows;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -45,6 +46,7 @@ class BookingControllerIntegrationTest {
 
     @SneakyThrows
     @Test
+    @DisplayName("Получить бронирование по идентификатору.")
     void getByIdTest() {
         BookingDto booking = new BookingDto();
         when(bookingService.getBookingById(1, 1)).thenReturn(booking);
@@ -61,6 +63,7 @@ class BookingControllerIntegrationTest {
 
     @SneakyThrows
     @Test
+    @DisplayName("Получить список брони по идентификатору пользователя.")
     void getByUserIdTest() {
         List<BookingDto> bookings = List.of(new BookingDto());
         when(bookingService.getBookingListByUserId(1, "ALL", 1, 10)).thenReturn(bookings);
