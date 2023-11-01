@@ -1,23 +1,16 @@
 package ru.practicum.shareit.booking;
 
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import ru.practicum.shareit.item.Item;
-import ru.practicum.shareit.utils.Status;
+import org.springframework.data.jpa.repository.Query;
+import ru.practicum.shareit.item.model.Item;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 public interface BookingRepository extends JpaRepository<Booking, Integer> {
-
-    List<Booking> findByItemIn(Iterable<Item> items);
-
-    Optional<Booking> findFirstByItemIdAndStartBeforeAndStatusOrderByStartDesc(
-            Integer id, LocalDateTime start, Status status);
-
-    Optional<Booking> findFirstByItemIdAndEndAfterAndStatusOrderByStartAsc(
-            Integer id, LocalDateTime end, Status status);
 
     @Query("SELECT b " +
             "FROM Booking AS b " +
@@ -40,7 +33,7 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
             "WHERE u.id = ?1 " +
             "and b.end < current_timestamp " +
             "ORDER BY b.start DESC")
-    List<Booking> findBookingByUserIdAndFinishAfterNow(Integer userId);
+    Page<Booking> findBookingByUserIdAndFinishAfterNow(Integer userId, Pageable page);
 
     @Query("SELECT b " +
             "FROM Booking AS b " +
@@ -48,7 +41,7 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
             "WHERE u.id = ?1 " +
             "and b.start > current_timestamp " +
             "ORDER BY b.start DESC")
-    List<Booking> findBookingByUserIdAndStarBeforeNow(Integer userId);
+    Page<Booking> findBookingByUserIdAndStartBeforeNow(Integer userId, Pageable page);
 
     @Query("SELECT b " +
             "FROM Booking AS b " +
@@ -56,7 +49,7 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
             "WHERE u.id = ?1 " +
             "and b.status LIKE ?2 " +
             "ORDER BY b.start DESC")
-    List<Booking> findBookingByUserIdAndByStatusContainingIgnoreCase(Integer userId, Status state);
+    Page<Booking> findBookingByUserIdAndByStatusContainingIgnoreCase(Integer userId, Status state, Pageable page);
 
     @Query("SELECT b " +
             "FROM Booking AS b " +
@@ -64,7 +57,7 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
             "JOIN i.owner AS o " +
             "WHERE o.id = ?1 " +
             "ORDER BY b.start DESC")
-    List<Booking> findByOwnerId(Integer userId);
+    Page<Booking> findByOwnerId(Integer userId, Pageable page);
 
     @Query("SELECT b " +
             "FROM Booking AS b " +
@@ -73,7 +66,7 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
             "WHERE o.id = ?1 " +
             "and b.start < current_timestamp and b.end > current_timestamp " +
             "ORDER BY b.start DESC")
-    List<Booking> findCurrentByOwnerId(Integer userId);
+    Page<Booking> getCurrentByOwnerId(Integer userId, Pageable page);
 
     @Query("SELECT b " +
             "FROM Booking AS b " +
@@ -82,7 +75,7 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
             "WHERE o.id = ?1 " +
             "and b.end < current_timestamp " +
             "ORDER BY b.start DESC")
-    List<Booking> findPastByOwnerId(Integer userId);
+    Page<Booking> findPastByOwnerId(Integer userId, Pageable page);
 
     @Query("SELECT b " +
             "FROM Booking AS b " +
@@ -91,7 +84,7 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
             "WHERE o.id = ?1 " +
             "and b.start > current_timestamp " +
             "ORDER BY b.start DESC")
-    List<Booking> findBookingByOwnerIdAndStarBeforeNow(Integer userId);
+    Page<Booking> findBookingByOwnerIdAndStartBeforeNow(Integer userId, Pageable page);
 
     @Query("SELECT b " +
             "FROM Booking AS b " +
@@ -100,5 +93,23 @@ public interface BookingRepository extends JpaRepository<Booking, Integer> {
             "WHERE o.id = ?1 " +
             "and b.status LIKE ?2 " +
             "ORDER BY b.start DESC")
-    List<Booking> findBookingByOwnerIdAndByStatusContainingIgnoreCase(Integer userId, Status state);
+    Page<Booking> findBookingByOwnerIdAndByStatusContainingIgnoreCase(Integer userId, Status state, Pageable page);
+
+    Optional<Booking> findFirstByItemIdAndStartBeforeAndStatusOrderByStartDesc(Integer id, LocalDateTime start, Status status);
+
+    Optional<Booking> findFirstByItemIdAndEndAfterAndStatusOrderByStartAsc(Integer id, LocalDateTime end, Status status);
+
+    List<Booking> findByItemIn(Iterable<Item> items);
+
+    Page<Booking> getByBookerIdOrderByStartDesc(Integer userId, Pageable page);
+
+    @Query("SELECT b " +
+            "FROM Booking AS b " +
+            "JOIN b.booker AS u " +
+            "WHERE u.id = ?1 " +
+            "and b.start < current_timestamp and b.end > current_timestamp  " +
+            "ORDER BY b.start")
+    Page<Booking> getCurrentByUserId(Integer userId, Pageable page);
+
+    List<Booking> getBookingByBookerIdAndItemIdAndEndBeforeOrderByStartDesc(Integer userId, Integer itemId, LocalDateTime end);
 }

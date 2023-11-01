@@ -1,4 +1,4 @@
-package ru.practicum.shareit.item;
+package ru.practicum.shareit.item.model;
 
 import lombok.Data;
 import ru.practicum.shareit.booking.dto.BookingDto;
@@ -24,4 +24,6 @@ public class ItemWithBooking {
     private BookingDto nextBooking;
 
     private List<CommentDto> comments;
+
+    private Integer requestId;
 }

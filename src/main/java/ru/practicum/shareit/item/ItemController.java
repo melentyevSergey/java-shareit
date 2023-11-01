@@ -2,83 +2,81 @@ package ru.practicum.shareit.item;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import ru.practicum.shareit.exception.ValidationException;
 import ru.practicum.shareit.comment.dto.CommentDto;
 import ru.practicum.shareit.item.dto.ItemDto;
-import ru.practicum.shareit.utils.ValidationException;
+import ru.practicum.shareit.item.model.ItemService;
+import ru.practicum.shareit.item.model.ItemWithBooking;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.Collection;
 import java.util.List;
 
-import static ru.practicum.shareit.utils.AppRequestParams.USERID;
+import static ru.practicum.shareit.utility.AppRequestParams.USERID;
 
-@Slf4j
+
 @RestController
-@RequestMapping("/items")
+@RequestMapping(path = "/items")
 @RequiredArgsConstructor
+@Slf4j
+@Validated
 public class ItemController {
     private final ItemService itemService;
 
+    @GetMapping
+    public Collection<ItemWithBooking> getItemsByUserId(@RequestHeader(USERID) Integer userId,
+                                                        @RequestParam(value = "from", defaultValue = "0") @PositiveOrZero Integer from,
+                                                        @RequestParam(value = "size", defaultValue = "10") @Min(1) Integer size) {
+        log.info("Колличество вещей пользователя {}: {}", userId, itemService.getItemsByUserId(userId, from, size).size());
+        return itemService.getItemsByUserId(userId, from, size);
+    }
+
     @GetMapping("/{itemId}")
-    public ItemWithBooking getItem(@PathVariable Integer itemId, @RequestHeader(USERID) Integer userId) {
-        log.info("Получен GET запрос для получения вещи по идентификатору {}", itemId);
-        log.debug("Идентификатор пользователя, запрашивающий вещь {}", userId);
-
-        return itemService.getItem(userId, itemId);
+    public ItemWithBooking getById(@RequestHeader(USERID) Integer userId,
+                           @PathVariable Integer itemId) {
+        log.info("Попытка получить вещь с идентификатором {}", itemId);
+        return itemService.getItemById(userId, itemId);
     }
 
-    @GetMapping()
-    public Collection<ItemWithBooking> getItems(@RequestHeader(USERID) Integer userId) {
-        log.debug("Получен GET запрос на получение списка всех вещей пользователя.");
-
-        return itemService.getItemsByUserId(userId);
-    }
-
-    @GetMapping("/search")
-    public List<ItemDto> findItem(@RequestParam(name = "text") String query) {
-        log.info("Получен GET запрос для поиск вещи потенциальным арендатором по строке {}", query);
-
-        return itemService.findItem(query);
-    }
-
-    @PostMapping()
-    public ItemDto createItem(@RequestBody @Valid ItemDto itemDto,
-                              @RequestHeader(USERID) Integer userId) throws ValidationException {
-
-        log.info("Получен POST запрос для добавления новой вещи.");
-        log.debug("Идентификатор пользователя, добавляющий вещь {}", userId);
-
-        return itemService.createItem(userId, itemDto);
+    @PostMapping
+    public ItemDto save(@RequestHeader(USERID) Integer userId,
+                     @RequestBody @Valid ItemDto itemDto) throws ValidationException {
+        log.info("Попытка добавления вещи {}", itemDto);
+        return itemService.save(userId, itemDto);
     }
 
     @PatchMapping("/{itemId}")
-    public ItemDto updateItem(@PathVariable Integer itemId,
-                              @RequestBody ItemDto itemDto,
-                              @RequestHeader(USERID) Integer userId) {
-
-        log.info("Получен PATCH запрос для обновления существующей вещи.");
-        log.debug("Идентификатор вещи {}", itemId);
-        log.debug("Идентификатор пользователя, которому принадлежит вещь {}", userId);
-
-        return itemService.updateItem(userId, itemId, itemDto);
+    public ItemDto update(@RequestHeader(USERID) Integer userId,
+                          @RequestBody ItemDto itemDto,
+                          @PathVariable Integer itemId) {
+        log.info("Попытка изменить вещь {}", itemDto);
+        return itemService.update(userId, itemDto, itemId);
     }
 
     @DeleteMapping("/{itemId}")
-    public void removeItem(@RequestHeader(USERID) Integer userId, @PathVariable Integer itemId) {
+    public void removeById(@RequestHeader(USERID) Integer userId,
+                           @PathVariable Integer itemId) {
+        log.info("Попытка удаления вещи с идентификатором {}", userId);
+        itemService.removeById(userId, itemId);
+    }
 
-        log.info("Получен DELETE запрос на удаление вещи с идентификатором {}", itemId);
-
-        itemService.removeItem(userId, itemId);
+    @GetMapping("/search")
+    public List<ItemDto> getByQuery(@RequestParam(name = "text") String query,
+                                    @RequestParam(value = "from", defaultValue = "0") @PositiveOrZero Integer from,
+                                    @RequestParam(value = "size", defaultValue = "10") @Min(1) Integer size) {
+        log.info("Попытка найти вещь по зпросу: {}", query);
+        return itemService.getByQuery(query, from, size);
     }
 
     @PostMapping("/{itemId}/comment")
     public CommentDto addComment(@RequestHeader(USERID) Integer userId,
                                  @RequestBody @Valid CommentDto commentDto,
                                  @PathVariable Integer itemId) {
-
         log.info("Попытка добавить комментарий {}", commentDto);
-
-        return itemService.addNewCommentForItem(userId, commentDto, itemId);
+        return itemService.addNewComment(userId, commentDto, itemId);
     }
 }
