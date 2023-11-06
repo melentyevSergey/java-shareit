@@ -1,12 +1,13 @@
-package ru.practicum.server.item.model;
+package ru.practicum.server.comment;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
+import ru.practicum.server.comment.Comment;
+import ru.practicum.server.item.model.Item;
 
 import java.util.List;
 
-@Repository
 public interface CommentRepository extends JpaRepository<Comment, Integer> {
 
    List<Comment> findByItemIn(Iterable<Item> items, Sort created);

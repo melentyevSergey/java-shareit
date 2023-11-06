@@ -8,19 +8,20 @@ import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 import ru.practicum.gateway.client.BaseClient;
+import ru.practicum.gateway.comment.CommentDto;
 
 import java.util.Map;
 
+import static ru.practicum.gateway.utility.GatewayAppRequestParams.API_PREFIX_ITEMS;
+
 @Service
 public class ItemClient extends BaseClient {
-    // TODO REPLACE API_PREFIX
-    private static final String API_PREFIX = "/items";
 
     @Autowired
     public ItemClient(@Value("${shareit-server.url}") String serverUrl, RestTemplateBuilder builder) {
         super(
                 builder
-                        .uriTemplateHandler(new DefaultUriBuilderFactory(serverUrl + API_PREFIX))
+                        .uriTemplateHandler(new DefaultUriBuilderFactory(serverUrl + API_PREFIX_ITEMS))
                         .requestFactory(HttpComponentsClientHttpRequestFactory::new)
                         .build()
         );

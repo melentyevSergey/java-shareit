@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-@Repository
 public interface BookingRepository extends JpaRepository<Booking, Integer> {
 
     @Query("SELECT b " +

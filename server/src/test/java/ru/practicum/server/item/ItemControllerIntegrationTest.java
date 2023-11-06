@@ -8,7 +8,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.practicum.server.booking.BookingService;
-import ru.practicum.server.item.dto.CommentDto;
+import ru.practicum.server.comment.dto.CommentDto;
 import ru.practicum.server.item.dto.ItemDto;
 import ru.practicum.server.item.model.Item;
 import ru.practicum.server.item.model.ItemMapper;

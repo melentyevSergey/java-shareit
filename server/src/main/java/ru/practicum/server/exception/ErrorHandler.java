@@ -47,8 +47,8 @@ public class ErrorHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ErrorResponse handleThrowable(final Throwable throwable) {
-        log.info("Ошибка 500: {}", throwable.getMessage());
-        return new ErrorResponse(throwable.getMessage());
+    public ErrorResponse handleThrowable(final Exception e) {
+        log.info("Ошибка 500: {}", e.getMessage());
+        return new ErrorResponse(e.getMessage());
     }
 }

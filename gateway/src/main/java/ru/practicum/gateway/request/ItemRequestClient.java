@@ -11,15 +11,16 @@ import ru.practicum.gateway.client.BaseClient;
 
 import java.util.Map;
 
+import static ru.practicum.gateway.utility.GatewayAppRequestParams.API_PREFIX_REQUESTS;
+
 @Service
 public class ItemRequestClient extends BaseClient {
-    private static final String API_PREFIX = "/requests";
 
     @Autowired
     public ItemRequestClient(@Value("${shareit-server.url}") String serverUrl, RestTemplateBuilder builder) {
         super(
                 builder
-                        .uriTemplateHandler(new DefaultUriBuilderFactory(serverUrl + API_PREFIX))
+                        .uriTemplateHandler(new DefaultUriBuilderFactory(serverUrl + API_PREFIX_REQUESTS))
                         .requestFactory(HttpComponentsClientHttpRequestFactory::new)
                         .build()
         );

@@ -11,6 +11,8 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
+import static ru.practicum.server.utility.ServerAppRequestParams.USERID;
+
 @RestController
 @RequestMapping(path = "/bookings")
 @RequiredArgsConstructor
@@ -18,7 +20,6 @@ import java.util.List;
 @Validated
 public class BookingController {
     private final BookingService bookingService;
-    private static final String USERID = "X-Sharer-User-Id";
 
     @GetMapping("/{bookingId}")
     public BookingDto getById(@RequestHeader(USERID) Integer userId,

@@ -9,15 +9,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 import ru.practicum.gateway.client.BaseClient;
 
+import static ru.practicum.gateway.utility.GatewayAppRequestParams.API_PREFIX_USERS;
+
 @Service
 public class UserClient extends BaseClient {
-    public static final String API_PREFIX = "/users";
 
     @Autowired
     public UserClient(@Value("${shareit-server.url}") String serverUrl, RestTemplateBuilder builder) {
         super(
                 builder
-                        .uriTemplateHandler(new DefaultUriBuilderFactory(serverUrl + API_PREFIX))
+                        .uriTemplateHandler(new DefaultUriBuilderFactory(serverUrl + API_PREFIX_USERS))
                         .requestFactory(HttpComponentsClientHttpRequestFactory::new)
                         .build()
         );

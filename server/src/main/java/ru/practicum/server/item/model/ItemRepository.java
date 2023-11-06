@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Optional;
 
 
-@Repository
 public interface ItemRepository extends JpaRepository<Item, Integer> {
 
     Page<Item> findByOwnerId(Integer id, Pageable page);

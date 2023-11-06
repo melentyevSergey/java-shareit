@@ -1,6 +1,6 @@
 package ru.practicum.server.item.model;
 
-import ru.practicum.server.item.dto.CommentDto;
+import ru.practicum.server.comment.dto.CommentDto;
 import ru.practicum.server.item.dto.ItemDto;
 
 import java.util.Collection;

@@ -6,11 +6,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import ru.practicum.gateway.comment.CommentDto;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
+
+import static ru.practicum.gateway.utility.GatewayAppRequestParams.USERID;
 
 @Controller
 @RequestMapping(path = "/items")
@@ -19,8 +22,6 @@ import javax.validation.constraints.PositiveOrZero;
 @Validated
 public class ItemController {
     private final ItemClient itemClient;
-
-    public static final String USERID = "X-Sharer-User-Id";
 
     @PostMapping
     public ResponseEntity<Object> save(@RequestHeader(USERID) Integer userId,

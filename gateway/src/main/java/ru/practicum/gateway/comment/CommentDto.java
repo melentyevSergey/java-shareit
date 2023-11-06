@@ -1,4 +1,4 @@
-package ru.practicum.gateway.item;
+package ru.practicum.gateway.comment;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

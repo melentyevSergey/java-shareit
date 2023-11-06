@@ -11,15 +11,16 @@ import ru.practicum.gateway.client.BaseClient;
 
 import java.util.Map;
 
+import static ru.practicum.gateway.utility.GatewayAppRequestParams.API_PREFIX_BOOKINGS;
+
 @Service
 public class BookingClient extends BaseClient {
-    private static final String API_PREFIX = "/bookings";
 
     @Autowired
     public BookingClient(@Value("${shareit-server.url}") String serverUrl, RestTemplateBuilder builder) {
         super(
                 builder
-                        .uriTemplateHandler(new DefaultUriBuilderFactory(serverUrl + API_PREFIX))
+                        .uriTemplateHandler(new DefaultUriBuilderFactory(serverUrl + API_PREFIX_BOOKINGS))
                         .requestFactory(HttpComponentsClientHttpRequestFactory::new)
                         .build()
         );

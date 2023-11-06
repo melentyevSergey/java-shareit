@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.server.exception.ValidationException;
-import ru.practicum.server.item.dto.CommentDto;
+import ru.practicum.server.comment.dto.CommentDto;
 import ru.practicum.server.item.dto.ItemDto;
 import ru.practicum.server.item.model.ItemService;
 import ru.practicum.server.item.model.ItemWithBooking;
@@ -16,6 +16,8 @@ import javax.validation.constraints.PositiveOrZero;
 import java.util.Collection;
 import java.util.List;
 
+import static ru.practicum.server.utility.ServerAppRequestParams.USERID;
+
 
 @RestController
 @RequestMapping(path = "/items")
@@ -24,9 +26,6 @@ import java.util.List;
 @Validated
 public class ItemController {
     private final ItemService itemService;
-
-    // TODO REMOVE USERID
-    private static final String USERID = "X-Sharer-User-Id";
 
     @GetMapping
     public Collection<ItemWithBooking> getItemsByUserId(@RequestHeader(USERID) Integer userId,

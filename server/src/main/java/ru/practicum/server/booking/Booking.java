@@ -1,13 +1,15 @@
 package ru.practicum.server.booking;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import ru.practicum.server.item.model.Item;
 import ru.practicum.server.user.User;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "bookings")
 public class Booking {

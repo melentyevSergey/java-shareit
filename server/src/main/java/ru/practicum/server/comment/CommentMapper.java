@@ -1,7 +1,8 @@
-package ru.practicum.server.item.model;
+package ru.practicum.server.comment;
 
 import lombok.experimental.UtilityClass;
-import ru.practicum.server.item.dto.CommentDto;
+import ru.practicum.server.comment.dto.CommentDto;
+import ru.practicum.server.item.model.Item;
 import ru.practicum.server.user.User;
 
 import java.util.List;

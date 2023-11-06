@@ -1,7 +1,6 @@
 package ru.practicum.server.utility;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.practicum.server.booking.Booking;
 import ru.practicum.server.booking.BookingRepository;
@@ -19,7 +18,6 @@ import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class Utility {
     private final ItemRepository itemRepository;
     private final UserRepository userRepository;

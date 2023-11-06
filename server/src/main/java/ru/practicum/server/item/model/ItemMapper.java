@@ -2,7 +2,7 @@ package ru.practicum.server.item.model;
 
 import lombok.experimental.UtilityClass;
 import ru.practicum.server.booking.dto.BookingDto;
-import ru.practicum.server.item.dto.CommentDto;
+import ru.practicum.server.comment.dto.CommentDto;
 import ru.practicum.server.item.dto.ItemDto;
 import ru.practicum.server.request.ItemRequest;
 import ru.practicum.server.user.User;

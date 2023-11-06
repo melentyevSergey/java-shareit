@@ -12,6 +12,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
 
+import static ru.practicum.gateway.utility.GatewayAppRequestParams.USERID;
+
 @Controller
 @RequestMapping(path = "/requests")
 @RequiredArgsConstructor
@@ -19,8 +21,6 @@ import javax.validation.constraints.PositiveOrZero;
 @Validated
 public class ItemRequestController {
     private final ItemRequestClient itemRequestClient;
-
-    private static final String USERID = "X-Sharer-User-Id";
 
     @PostMapping
     public ResponseEntity<Object> save(@RequestHeader(USERID) Integer userId,

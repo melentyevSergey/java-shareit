@@ -1,12 +1,14 @@
 package ru.practicum.server.item.model;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import ru.practicum.server.request.ItemRequest;
 import ru.practicum.server.user.User;
 
 import javax.persistence.*;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table(name = "items")
 public class Item {

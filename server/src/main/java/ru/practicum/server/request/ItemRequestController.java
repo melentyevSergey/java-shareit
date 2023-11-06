@@ -12,6 +12,8 @@ import javax.validation.constraints.PositiveOrZero;
 import java.util.Collection;
 import java.util.List;
 
+import static ru.practicum.server.utility.ServerAppRequestParams.USERID;
+
 
 @RestController
 @RequestMapping(path = "/requests")
@@ -20,7 +22,6 @@ import java.util.List;
 @Validated
 public class ItemRequestController {
     private final ItemRequestService itemRequestService;
-    private static final String USERID = "X-Sharer-User-Id";
 
     @PostMapping
     public ItemRequestDto save(@RequestHeader(USERID) Integer userId,

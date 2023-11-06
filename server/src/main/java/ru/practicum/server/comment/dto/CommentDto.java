@@ -1,4 +1,4 @@
-package ru.practicum.server.item.dto;
+package ru.practicum.server.comment.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
