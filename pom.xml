@@ -12,10 +12,15 @@
 	<groupId>ru.practicum</groupId>
 	<artifactId>shareit</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
-	<name>ShareIt</name>
+    <name>ShareIt</name>
+    <modules>
+        <module>gateway</module>
+        <module>server</module>
+    </modules>
 
-	<properties>
+    <properties>
 		<java.version>11</java.version>
 	</properties>
 
@@ -23,6 +28,13 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>42.3.8</version>
+			<scope>runtime</scope>
 		</dependency>
 
 		<dependency>
@@ -60,19 +72,13 @@
 		</dependency>
 
 		<dependency>
-			<groupId>org.postgresql</groupId>
-			<artifactId>postgresql</artifactId>
-			<version>42.3.8</version>
-			<scope>runtime</scope>
-		</dependency>
-
-		<dependency>
 			<groupId>com.querydsl</groupId>
 			<artifactId>querydsl-jpa</artifactId>
 			<version>5.0.0</version>
 		</dependency>
 
 	</dependencies>
+
 	<build>
 		<resources>
 			<resource>
@@ -93,6 +99,13 @@
 					</excludes>
 				</configuration>
 			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<version>3.7.1</version>
+			</plugin>
+
 		</plugins>
 		<pluginManagement>
 			<plugins>
@@ -127,7 +140,7 @@
 						<dependency>
 							<groupId>com.puppycrawl.tools</groupId>
 							<artifactId>checkstyle</artifactId>
-							<version>10.3</version>
+							<version>10.3.1</version>
 						</dependency>
 					</dependencies>
 				</plugin>
